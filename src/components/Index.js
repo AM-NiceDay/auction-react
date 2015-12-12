@@ -3,8 +3,8 @@ import React from 'react';
 export default React.createClass({
   render() {
     return <div>
-      <h4>Auction</h4>
-      {this.props.children}
+      <button>Create room</button>
+      <button>Join room</button>
     </div>
   }
 });
