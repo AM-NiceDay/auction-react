@@ -1,14 +1,15 @@
 import React from 'react';
-import { connect } from 'react-redux'
+import { connect } from 'react-redux';
+import { List } from 'immutable';
 
 const Room = React.createClass({
 
   getOwner() {
-    return this.props.room.owner || 'unknown';
+    return this.props.room.get('owner') || 'unknown';
   },
 
   getPlayers() {
-    return this.props.room.players || [];
+    return this.props.room.get('players') || List();
   },
 
   render() {

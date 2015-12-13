@@ -1,20 +1,16 @@
 import { CREATE_ROOM, JOIN_ROOM } from '../actions/room';
+import { Map, List } from 'immutable';
 
-export default function(state = { players: [] }, action) {
+const initialState = Map({
+  players: List()
+});
+
+export default function(state = initialState, action) {
   switch(action.type) {
     case CREATE_ROOM:
-      return {
-        owner: action.owner,
-        players: []
-      };
+      return state.set('owner', action.owner);
     case JOIN_ROOM:
-      return {
-        owner: state.owner,
-        players: [
-          ...state.players,
-          action.player
-        ]
-      };
+      return state.set('players', state.get('players').push(action.player));
     default: return state;
   }
 }
