@@ -10,8 +10,10 @@ import reducers from './reducers';
 
 const store = createStore(reducers);
 
+
+console.log(store.getState().toJS());
 store.subscribe(() => {
-  console.log(store.getState());
+  console.log(store.getState().toJS());
 });
 
 ReactDOM.render(

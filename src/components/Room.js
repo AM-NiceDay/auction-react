@@ -24,4 +24,4 @@ const Room = React.createClass({
   }
 });
 
-export default connect(state => ({ room: state.room }))(Room);
+export default connect(state => ({ room: state.get('room') }))(Room);
