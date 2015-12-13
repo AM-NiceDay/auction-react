@@ -24,7 +24,9 @@
   "homepage": "https://github.com/AM-NiceDay/auction-react#readme",
   "dependencies": {
     "react": "^0.14.3",
-    "react-dom": "^0.14.3"
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.0.0",
+    "redux": "^3.0.4"
   },
   "devDependencies": {
     "babel-core": "^6.3.15",
