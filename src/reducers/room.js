@@ -10,7 +10,7 @@ export default function(state = initialState, action) {
     case CREATE_ROOM:
       return state.set('owner', action.owner);
     case JOIN_ROOM:
-      return state.set('players', state.get('players').push(action.player));
+      return state.update('players', players => players.push(action.player));
     default: return state;
   }
 }
