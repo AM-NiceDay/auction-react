@@ -1,5 +1,6 @@
 import { fromJS } from 'immutable';
-import { CREATE_ROOM } from '../actions/room';
+import { START_GAME } from '../actions/game';
+import { Map, List } from 'immutable';
 
 const initialState = Map({
   players: List()
@@ -7,7 +8,7 @@ const initialState = Map({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case CREATE_ROOM:
+    case START_GAME:
       return fromJS(action.game);
     default:
       return state;

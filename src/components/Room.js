@@ -38,7 +38,7 @@ const Room = React.createClass({
       </ul>
 
       {this.isOwner()
-        ? <button onClick={ this.handleGameStart() }>Start game</button> : null}
+        ? <button onClick={this.handleGameStart}>Start game</button> : null}
     </div>
   }
 });

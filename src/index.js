@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import App from './components/App';
 import Index from './components/Index';
 import Room from './components/Room';
+import Game from './components/Game';
 import reducers from './reducers';
 import io from 'socket.io-client';
 import remoteActionMiddleware from './middlewares/remoteActionMiddleware';
@@ -31,7 +32,7 @@ ReactDOM.render(
       <Route component={App}>
         <Route path="/" component={Index} />
         <Route path="room" component={Room} />
-        <Route path="game" component={Game}></Route>
+        <Route path="game" component={Game} />
       </Route>
     </Router>
   </Provider>,
