@@ -10,11 +10,11 @@ const Room = React.createClass({
   },
 
   getOwner() {
-    return this.props.room.get('owner') || 'unknown';
+    return this.props.room.get('owner');
   },
 
   getPlayers() {
-    return this.props.room.get('players') || List();
+    return this.props.room.get('players');
   },
 
   render() {
@@ -25,6 +25,7 @@ const Room = React.createClass({
         {this.getPlayers().map(player => <li key={player}>{player}</li>)}
       </ul>
 
+      {this.props.}
     </div>
   }
 });
