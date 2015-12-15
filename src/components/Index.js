@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { createRoom, joinRoom } from '../actions/room';
+import { createUser } from '../actions/user';
 
 const Index = React.createClass({
 
@@ -9,6 +10,7 @@ const Index = React.createClass({
     const name = this.refs.name.value;
 
     dispatch(createRoom(name));
+    dispatch(createUser(name));
     this.props.history.pushState(null, '/room');
   },
 
@@ -17,6 +19,7 @@ const Index = React.createClass({
     const name = this.refs.name.value;
 
     dispatch(joinRoom(name));
+    dispatch(createUser(name));
     this.props.history.pushState(null, '/room');
   },
 
