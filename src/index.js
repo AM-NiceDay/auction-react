@@ -31,6 +31,7 @@ ReactDOM.render(
       <Route component={App}>
         <Route path="/" component={Index} />
         <Route path="room" component={Room} />
+        <Route path="game" component={Game}></Route>
       </Route>
     </Router>
   </Provider>,
