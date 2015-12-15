@@ -17,6 +17,10 @@ const Room = React.createClass({
     return this.props.room.get('players');
   },
 
+  isOwner() {
+    return this.props.room.get('owner') == this.props.user;
+  },
+
   render() {
     return <div>
       <p>Owner: {this.getOwner()}</p>
@@ -25,9 +29,13 @@ const Room = React.createClass({
         {this.getPlayers().map(player => <li key={player}>{player}</li>)}
       </ul>
 
-      {this.props.}
+      {this.isOwner()
+        ? <button>Start game</button> : null}
     </div>
   }
 });
 
-export default connect(state => ({ room: state.get('room') }))(Room);
+export default connect(state => ({
+  room: state.get('room'),
+  user: state.get('user')
+}))(Room);
