@@ -1,8 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
+import { getRoom } from '../actions/room';
 
 const Room = React.createClass({
+
+  componentWillMount() {
+    this.props.dispatch(getRoom());
+  },
 
   getOwner() {
     return this.props.room.get('owner') || 'unknown';

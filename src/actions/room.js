@@ -1,6 +1,7 @@
 export const CREATE_ROOM = 'CREATE_ROOM';
 export const JOIN_ROOM = 'JOIN_ROOM';
 export const UPDATE_ROOM = 'UPDATE_ROOM';
+export const GET_ROOM = 'GET_ROOM';
 
 export function createRoom(owner) {
   return {
@@ -26,5 +27,14 @@ export function updateRoom(room) {
   return {
     type: UPDATE_ROOM,
     room
+  }
+}
+
+export function getRoom() {
+  return {
+    type: GET_ROOM,
+    meta: {
+      remote: true
+    }
   }
 }
