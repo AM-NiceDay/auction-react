@@ -2,11 +2,19 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { getRoom } from '../actions/room';
+import { startGame } from '../actions/game';
 
 const Room = React.createClass({
 
   componentWillMount() {
     this.props.dispatch(getRoom());
+  },
+
+  handleGameStart() {
+    const { dispatch } = this.props;
+
+    dispatch(startGame(this.props.room));
+    this.props.history.pushState(null, '/game');
   },
 
   getOwner() {
@@ -30,7 +38,7 @@ const Room = React.createClass({
       </ul>
 
       {this.isOwner()
-        ? <button>Start game</button> : null}
+        ? <button onClick={ this.handleGameStart() }>Start game</button> : null}
     </div>
   }
 });
