@@ -17,7 +17,11 @@ var socket = io('http://localhost:8000/');
 
 const createStoreWithMiddleware = applyMiddleware(
   remoteActionMiddleware(socket),
-  createLogger()
+  createLogger({
+    stateTransformer(state) {
+      return state.toJS();
+    }
+  })
 )(createStore);
 const store = createStoreWithMiddleware(reducers);
 

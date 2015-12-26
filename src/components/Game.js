@@ -1,7 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { getGame, updateGame } from '../actions/game';
 
 const Game = React.createClass({
+
+  componentWillMount() {
+    const { dispatch, socket } = this.props;
+
+    dispatch(getGame());
+    socket.on('UPDATE_GAME', (game) => {
+      dispatch(updateGame(game));
+    });
+  },
 
   getOwner() {
     return this.props.game.get('owner');
@@ -20,7 +30,7 @@ const Game = React.createClass({
       <p>Owner: {this.getOwner()}</p>
       <p>Players:</p>
       <ul>
-        {this.getPlayers().map(player => <li key={player}>{player}</li>)}
+        {this.getPlayers().map(player => <li key={player.get('name')}>{player.get('name')}</li>)}
       </ul>
     </div>
   }
