@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import { Router, Route } from 'react-router';
 import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import App from './components/App';
+import { createApp } from './components/App';
 import Index from './components/Index';
 import Room from './components/Room';
 import Game from './components/Game';
@@ -29,7 +29,7 @@ store.subscribe(() => {
 ReactDOM.render(
   <Provider store={store}>
     <Router>
-      <Route component={App}>
+      <Route component={createApp(socket)}>
         <Route path="/" component={Index} />
         <Route path="room" component={Room} />
         <Route path="game" component={Game} />

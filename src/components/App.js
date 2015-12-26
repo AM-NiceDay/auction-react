@@ -1,10 +1,12 @@
 import React from 'react';
 
-export default React.createClass({
-  render() {
-    return <div>
-      <h4>Auction</h4>
-      {this.props.children}
-    </div>
-  }
-});
+export function createApp(socket) {
+  return React.createClass({
+    render() {
+      return <div>
+        <h4>Auction</h4>
+        {React.cloneElement(this.props.children, {socket: socket})}
+      </div>
+    }
+  });
+}
