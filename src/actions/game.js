@@ -1,12 +1,25 @@
 export const START_GAME = 'START_GAME';
+export const JOIN_GAME = 'JOIN_GAME';
 
 export function startGame(room) {
-  const roomJS = room.toJS();
   return {
     type: START_GAME,
     game: {
-      owner: roomJS.owner,
-      players: roomJS.players
+      owner: room.owner,
+      players: room.players
+    },
+    meta: {
+      remote: true
+    }
+  }
+}
+
+export function joinGame(room) {
+  return {
+    type: JOIN_GAME,
+    game: {
+      owner: room.owner,
+      players: room.players
     }
   }
 }

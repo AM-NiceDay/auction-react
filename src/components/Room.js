@@ -2,18 +2,28 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { getRoom } from '../actions/room';
-import { startGame } from '../actions/game';
+import { startGame, joinGame } from '../actions/game';
 
 const Room = React.createClass({
 
   componentWillMount() {
-    this.props.dispatch(getRoom());
+    const { dispatch, socket } = this.props;
+
+    dispatch(getRoom());
+    socket.on('GAME_STARTED', game => {
+      dispatch(joinGame(game));
+      this.props.history.pushState(null, '/game');
+    });
+  },
+
+  componentWillUnmount() {
+    this.props.socket.removeAllListeners('GAME_STARTED');
   },
 
   handleGameStart() {
     const { dispatch } = this.props;
 
-    dispatch(startGame(this.props.room));
+    dispatch(startGame(this.props.room.toJS()));
     this.props.history.pushState(null, '/game');
   },
 
