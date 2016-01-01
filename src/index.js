@@ -11,6 +11,7 @@ import reducers from './reducers';
 import io from 'socket.io-client';
 import remoteActionMiddleware from './middlewares/remoteActionMiddleware';
 import createLogger from 'redux-logger';
+import { updateUser } from './actions/user';
 import { updateRoom } from './actions/room';
 
 var socket = io('http://localhost:8000/');
@@ -24,6 +25,10 @@ const createStoreWithMiddleware = applyMiddleware(
   })
 )(createStore);
 const store = createStoreWithMiddleware(reducers);
+
+socket.on('UPDATE_USER', user => {
+  store.dispatch(updateUser(user));
+});
 
 socket.on('UPDATE_ROOM', room => {
   store.dispatch(updateRoom(room));
