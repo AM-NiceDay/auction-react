@@ -4,7 +4,10 @@ export const UPDATE_USER = 'UPDATE_USER';
 export function createUser(name) {
   return {
     type: CREATE_USER,
-    name
+    name,
+    meta: {
+      remote: true
+    }
   }
 }
 
