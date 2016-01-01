@@ -29,9 +29,29 @@ const Game = React.createClass({
     return <div>
       <p>Owner: {this.getOwner()}</p>
       <p>Players:</p>
-      <ul>
-        {this.getPlayers().map(player => <li key={player.get('name')}>{player.get('name')}</li>)}
-      </ul>
+      {this.isOwner ?
+        <table>
+          <thead>
+            <tr>
+              <td>Name</td>`
+              <td>Money</td>
+              <td>Things</td>
+            </tr>
+          </thead>
+          <tbody>
+            {this.getPlayers().toJS().map(player =>
+              <tr>
+                <td>{player.name}</td>
+                <td>{player.money}</td>
+                <td>{player.things.join(', ')}</td>
+              </tr>)
+            }
+          </tbody>
+        </table> :
+        <ul>
+          {this.getPlayers().map(player => <li key={player.get('name')}>{player.get('name')}</li>)}
+        </ul>
+      }
     </div>
   }
 });
