@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Router, Route } from 'react-router';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import { Provider } from 'react-redux';
 import { createApp } from './components/App';
 import Index from './components/Index';
@@ -10,21 +10,31 @@ import Game from './components/Game';
 import reducers from './reducers';
 import io from 'socket.io-client';
 import remoteActionMiddleware from './middlewares/remoteActionMiddleware';
+import persistState from 'redux-localstorage';
 import createLogger from 'redux-logger';
 import { updateUser } from './actions/user';
 import { updateRoom } from './actions/room';
+import { fromJS, Map } from 'immutable';
 
 var socket = io('http://localhost:8000/');
 
-const createStoreWithMiddleware = applyMiddleware(
-  remoteActionMiddleware(socket),
-  createLogger({
-    stateTransformer(state) {
-      return state.toJS();
-    }
-  })
+const finalCreateStore = compose(
+  persistState(null, {
+    serialize: (subset) => JSON.stringify(subset.toJS()),
+    deserialize: (serializedData) => fromJS(JSON.parse(serializedData)),
+    merge: (initialState, persistedState) => initialState.mergeDeep(persistedState)
+  }),
+  applyMiddleware(
+    remoteActionMiddleware(socket),
+    createLogger({
+      stateTransformer(state) {
+        return state.toJS();
+      }
+    })
+  )
 )(createStore);
-const store = createStoreWithMiddleware(reducers);
+
+const store = finalCreateStore(reducers, Map());
 
 socket.on('UPDATE_USER', user => {
   store.dispatch(updateUser(user));
