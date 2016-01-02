@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
-import { getRoom } from '../actions/room';
+import { getRoom, updateRoom } from '../actions/room';
 import { startGame, joinGame } from '../actions/game';
 
 const Room = React.createClass({
@@ -10,6 +10,11 @@ const Room = React.createClass({
     const { dispatch, socket } = this.props;
 
     dispatch(getRoom());
+
+    socket.on('UPDATE_ROOM', room => {
+      dispatch(updateRoom(room));
+    });
+
     socket.on('GAME_STARTED', game => {
       dispatch(joinGame(game));
       this.props.history.pushState(null, '/game');
@@ -17,6 +22,7 @@ const Room = React.createClass({
   },
 
   componentWillUnmount() {
+    this.props.socket.removeAllListeners('UPDATE_ROOM');
     this.props.socket.removeAllListeners('GAME_STARTED');
   },
 
@@ -27,28 +33,20 @@ const Room = React.createClass({
     this.props.history.pushState(null, '/game');
   },
 
-  getOwner() {
-    return this.props.room.get('owner');
-  },
-
-  getPlayers() {
-    return this.props.room.get('players');
-  },
-
-  isOwner() {
-    return this.props.room.get('owner') == this.props.user;
-  },
-
   render() {
+    const { room, user } = this.props;
+    const owner = room.get('owner');
+    const players = room.get('players');
+    const isOwner = room.get('owner').get('id') === user.get('id');
+
     return <div>
-      <p>Owner: {this.getOwner()}</p>
+      <p>Owner: { owner.get('name') }</p>
       <p>Players:</p>
       <ul>
-        {this.getPlayers().map(player => <li key={player}>{player}</li>)}
+        { players.map(player => <li key={player.get('id')}>{ player.get('name') } </li>) }
       </ul>
 
-      {this.isOwner()
-        ? <button onClick={this.handleGameStart}>Start game</button> : null}
+      { isOwner ? <button onClick={ this.handleGameStart }>Start game</button> : null }
     </div>
   }
 });

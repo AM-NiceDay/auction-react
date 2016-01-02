@@ -7,20 +7,16 @@ import LoginForm from './LoginForm';
 const Index = React.createClass({
 
   createRoomHandler() {
-    const { dispatch } = this.props;
-    const name = this.refs.name.value;
+    const { dispatch, user } = this.props;
 
-    dispatch(createRoom(name));
-    dispatch(createUser(name));
+    dispatch(createRoom(user));
     this.props.history.pushState(null, '/room');
   },
 
   joinRoomHandler() {
-    const { dispatch } = this.props;
-    const name = this.refs.name.value;
+    const { dispatch, user } = this.props;
 
-    dispatch(joinRoom(name));
-    dispatch(createUser(name));
+    dispatch(joinRoom(user));
     this.props.history.pushState(null, '/room');
   },
 

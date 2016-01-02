@@ -7,7 +7,7 @@ export function createApp(socket) {
     render() {
       const isLoggedIn = !this.props.user.isEmpty();
       const { user, dispatch } = this.props;
-      console.log(user);
+
       return <div>
         <h4>Auction</h4>
         { isLoggedIn ? <p>

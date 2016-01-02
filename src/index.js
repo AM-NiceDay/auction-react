@@ -13,7 +13,6 @@ import remoteActionMiddleware from './middlewares/remoteActionMiddleware';
 import persistState from 'redux-localstorage';
 import createLogger from 'redux-logger';
 import { updateUser } from './actions/user';
-import { updateRoom } from './actions/room';
 import { fromJS, Map } from 'immutable';
 
 var socket = io('http://localhost:8000/');
@@ -38,10 +37,6 @@ const store = finalCreateStore(reducers, Map());
 
 socket.on('UPDATE_USER', user => {
   store.dispatch(updateUser(user));
-});
-
-socket.on('UPDATE_ROOM', room => {
-  store.dispatch(updateRoom(room));
 });
 
 ReactDOM.render(
