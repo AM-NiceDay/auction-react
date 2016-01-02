@@ -24,7 +24,7 @@ const Index = React.createClass({
     this.props.history.pushState(null, '/room');
   },
 
-  login(name) {
+  loginHandler(name) {
     const { dispatch } = this.props;
 
     dispatch(createUser(name));
@@ -37,7 +37,7 @@ const Index = React.createClass({
       { isLoggedIn ? <div>
           <button onClick={ this.createRoomHandler }>Create room</button>
           <button onClick={ this.joinRoomHandler }>Join room</button>
-        </div> : <LoginForm login={ this.login }/>
+        </div> : <LoginForm login={ this.loginHandler }/>
       }
     </div>
   }
