@@ -13,9 +13,10 @@ export function createRoom(owner) {
   }
 }
 
-export function joinRoom(player) {
+export function joinRoom(roomId, player) {
   return {
     type: JOIN_ROOM,
+    roomId,
     player,
     meta: {
       remote: true

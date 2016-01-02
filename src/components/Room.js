@@ -43,7 +43,7 @@ const Room = React.createClass({
       <p>Owner: { owner.get('name') }</p>
       <p>Players:</p>
       <ul>
-        { players.map(player => <li key={player.get('id')}>{ player.get('name') } </li>) }
+        { players.map(player => <li key={ player.get('_id') }>{ player.get('name') }</li>) }
       </ul>
 
       { isOwner ? <button onClick={ this.handleGameStart }>Start game</button> : null }
