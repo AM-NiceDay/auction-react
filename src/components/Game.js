@@ -1,15 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getGame, updateGame } from '../actions/game';
+import { getGame, updateGame, removeGame, gameRemoved } from '../actions/game';
 
 const Game = React.createClass({
 
   componentWillMount() {
-    const { dispatch, socket, params } = this.props;
+    const { dispatch, socket, params, history } = this.props;
 
     dispatch(getGame(params.gameId));
     socket.on('UPDATE_GAME', (game) => {
       dispatch(updateGame(game));
+    });
+    socket.on('GAME_REMOVED', () => {
+      dispatch(gameRemoved());
+      history.pushState(null, `/`);
     });
   },
 
@@ -17,18 +21,13 @@ const Game = React.createClass({
     const { socket } = this.props;
 
     socket.removeAllListeners('UPDATE_GAME');
+    socket.removeAllListeners('GAME_REMOVED');
   },
 
-  getOwner() {
-    return this.props.game.get('owner');
-  },
+  endGameHandler() {
+    const { dispatch } = this.props;
 
-  getPlayers() {
-    return this.props.game.get('players');
-  },
-
-  isOwner() {
-    return this.props.game.get('owner') == this.props.user;
+    dispatch(removeGame());
   },
 
   render() {
@@ -42,7 +41,7 @@ const Game = React.createClass({
     return <div>
       <p>Owner: { owner.get('name') }</p>
       <p>Players:</p>
-      {isOwner ?
+      { isOwner ?
         <table>
           <thead>
             <tr>
@@ -64,6 +63,7 @@ const Game = React.createClass({
           { players.toJS().map(player => <li key={ player._id }>{ player.name }</li>) }
         </ul>
       }
+      { isOwner ? <button onClick={ this.endGameHandler }>End game</button> : null }
     </div>
   }
 });
