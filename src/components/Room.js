@@ -7,9 +7,9 @@ import { startGame, joinGame } from '../actions/game';
 const Room = React.createClass({
 
   componentWillMount() {
-    const { dispatch, socket } = this.props;
+    const { dispatch, socket, params } = this.props;
 
-    dispatch(getRoom());
+    dispatch(getRoom(params.roomId));
 
     socket.on('UPDATE_ROOM', room => {
       dispatch(updateRoom(room));
@@ -37,7 +37,7 @@ const Room = React.createClass({
     const { room, user } = this.props;
     const owner = room.get('owner');
     const players = room.get('players');
-    const isOwner = room.get('owner').get('id') === user.get('id');
+    const isOwner = owner ? owner.get('_id') === user.get('id') : false;
 
     return <div>
       <p>Owner: { owner.get('name') }</p>

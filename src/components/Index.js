@@ -7,10 +7,13 @@ import LoginForm from './LoginForm';
 const Index = React.createClass({
 
   createRoomHandler() {
-    const { dispatch, user } = this.props;
+    const { dispatch, user, socket } = this.props;
 
     dispatch(createRoom(user));
-    this.props.history.pushState(null, '/room');
+
+    socket.on('ROOM_CREATED', roomId => {
+      this.props.history.pushState(null, `/room/${roomId}`);
+    });
   },
 
   joinRoomHandler() {

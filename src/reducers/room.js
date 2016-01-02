@@ -7,12 +7,8 @@ const initialState = Map({
 
 export default function(state = initialState, action) {
   switch(action.type) {
-    case CREATE_ROOM:
-      return state.set('owner', action.owner);
-    case JOIN_ROOM:
-      return state.update('players', players => players.push(action.player));
     case UPDATE_ROOM:
-      return state.merge(fromJS(action.room));
+      return fromJS(action.room);
     default: return state;
   }
 }

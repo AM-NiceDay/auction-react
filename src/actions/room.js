@@ -30,9 +30,10 @@ export function updateRoom(room) {
   }
 }
 
-export function getRoom() {
+export function getRoom(roomId) {
   return {
     type: GET_ROOM,
+    roomId,
     meta: {
       remote: true
     }

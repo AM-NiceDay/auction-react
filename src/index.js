@@ -44,7 +44,7 @@ ReactDOM.render(
     <Router>
       <Route component={createApp(socket)}>
         <Route path="/" component={Index} />
-        <Route path="room" component={Room} />
+        <Route path="room/:roomId" component={Room} />
         <Route path="game" component={Game} />
       </Route>
     </Router>
