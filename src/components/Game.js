@@ -5,12 +5,18 @@ import { getGame, updateGame } from '../actions/game';
 const Game = React.createClass({
 
   componentWillMount() {
-    const { dispatch, socket } = this.props;
+    const { dispatch, socket, params } = this.props;
 
-    dispatch(getGame());
+    dispatch(getGame(params.gameId));
     socket.on('UPDATE_GAME', (game) => {
       dispatch(updateGame(game));
     });
+  },
+
+  componentWillUnmount() {
+    const { socket } = this.props;
+
+    socket.removeAllListeners('UPDATE_GAME');
   },
 
   getOwner() {
@@ -26,30 +32,36 @@ const Game = React.createClass({
   },
 
   render() {
+    const { game, user } = this.props;
+    const owner = game.get('owner');
+    const players = game.get('players');
+    const playersStats = game.get('playersStats').toJS();
+
+    const isOwner = owner ? owner.get('_id') === user.get('id') : false;
+
     return <div>
-      <p>Owner: {this.getOwner()}</p>
+      <p>Owner: { owner.get('name') }</p>
       <p>Players:</p>
-      {this.isOwner ?
+      {isOwner ?
         <table>
           <thead>
             <tr>
-              <td>Name</td>`
+              <td>Name</td>
               <td>Money</td>
               <td>Things</td>
             </tr>
           </thead>
           <tbody>
-            {this.getPlayers().toJS().map(player =>
-              <tr>
-                <td>{player.name}</td>
-                <td>{player.money}</td>
-                <td>{player.things.join(', ')}</td>
+            { players.toJS().map(player => <tr key={player._id}>
+                <td>{ playersStats[player._id].name }</td>
+                <td>{ playersStats[player._id].money }</td>
+                <td>{ playersStats[player._id].things.join(', ') }</td>
               </tr>)
             }
           </tbody>
         </table> :
         <ul>
-          {this.getPlayers().map(player => <li key={player.get('name')}>{player.get('name')}</li>)}
+          { players.toJS().map(player => <li key={ player._id }>{ player.name }</li>) }
         </ul>
       }
     </div>

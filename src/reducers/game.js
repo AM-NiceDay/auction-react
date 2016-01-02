@@ -4,7 +4,8 @@ import { Map, List } from 'immutable';
 
 const initialState = Map({
   owner: Map(),
-  players: List()
+  players: List(),
+  playersStats: Map()
 });
 
 export default function(state = initialState, action) {

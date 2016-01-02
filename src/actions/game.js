@@ -12,9 +12,10 @@ export function startGame(roomId) {
   };
 }
 
-export function getGame() {
+export function getGame(gameId) {
   return {
     type: GET_GAME,
+    gameId,
     meta: {
       remote: true
     }
