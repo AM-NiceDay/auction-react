@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { List } from 'immutable';
 import { getRoom, updateRoom } from '../actions/room';
-import { startGame, joinGame } from '../actions/game';
+import { startGame } from '../actions/game';
 
 const Room = React.createClass({
 
@@ -15,22 +15,22 @@ const Room = React.createClass({
       dispatch(updateRoom(room));
     });
 
-    socket.on('GAME_STARTED', game => {
-      dispatch(joinGame(game));
-      this.props.history.pushState(null, '/game');
+    socket.on('GAME_STARTED', gameId => {
+      this.props.history.pushState(null, `/game/${gameId}`);
     });
   },
 
   componentWillUnmount() {
-    this.props.socket.removeAllListeners('UPDATE_ROOM');
-    this.props.socket.removeAllListeners('GAME_STARTED');
+    const { socket } = this.props;
+
+    socket.removeAllListeners('UPDATE_ROOM');
+    socket.removeAllListeners('GAME_STARTED');
   },
 
   handleGameStart() {
     const { dispatch } = this.props;
 
-    dispatch(startGame(this.props.room.toJS()));
-    this.props.history.pushState(null, '/game');
+    dispatch(startGame(this.props.room.get('_id')));
   },
 
   render() {

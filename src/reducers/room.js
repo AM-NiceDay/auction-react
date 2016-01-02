@@ -2,6 +2,7 @@ import { CREATE_ROOM, JOIN_ROOM, UPDATE_ROOM } from '../actions/room';
 import { Map, List, fromJS } from 'immutable';
 
 const initialState = Map({
+  owner: Map(),
   players: List()
 });
 
