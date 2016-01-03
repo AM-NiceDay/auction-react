@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { getGame, updateGame, removeGame, gameRemoved, nextTick } from '../actions/game';
+import PlayersStats from './PlayersStats';
 
 const Game = React.createClass({
 
@@ -36,9 +37,7 @@ const Game = React.createClass({
     const { game, user } = this.props;
     const owner = game.get('owner');
     const players = game.get('players');
-    const playersStats = game.get('playersStats').toJS();
     const things = game.get('things').toJS();
-
     const isOwner = owner ? owner.get('_id') === user.get('id') : false;
 
     return <div>
@@ -47,28 +46,12 @@ const Game = React.createClass({
       <p>Current thing: { game.get('currentThing') }</p>
       <p>Current price: { game.get('currentPrice') }</p>
       { isOwner ? <button onClick={ this.nextPriceHandler }>Next tick</button> : null }
-      <p>Players:</p>
-      { isOwner ?
-        <table>
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Money</td>
-              <td>Things</td>
-            </tr>
-          </thead>
-          <tbody>
-            { players.toJS().map(player => <tr key={player._id}>
-                <td>{ playersStats[player._id].name }</td>
-                <td>{ playersStats[player._id].money }</td>
-                <td>{ playersStats[player._id].things.join(', ') }</td>
-              </tr>)
-            }
-          </tbody>
-        </table> :
-        <ul>
-          { players.toJS().map(player => <li key={ player._id }>{ player.name }</li>) }
-        </ul>
+      { isOwner ? <PlayersStats players={ players } playersStats={ game.get('playersStats').toJS() } /> : <div>
+        <p>Players:</p>
+          <ul>
+            { players.toJS().map(player => <li key={ player._id }>{ player.name }</li>) }
+          </ul>
+        </div>
       }
       { isOwner ? <button onClick={ this.endGameHandler }>End game</button> : null }
     </div>
