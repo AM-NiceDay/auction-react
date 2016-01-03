@@ -35,11 +35,13 @@ const Game = React.createClass({
     const owner = game.get('owner');
     const players = game.get('players');
     const playersStats = game.get('playersStats').toJS();
+    const things = game.get('things').toJS();
 
     const isOwner = owner ? owner.get('_id') === user.get('id') : false;
 
     return <div>
       <p>Owner: { owner.get('name') }</p>
+      <p>Things: { isOwner ? things.join(', ') : null }</p>
       <p>Players:</p>
       { isOwner ?
         <table>
