@@ -42,6 +42,8 @@ const Game = React.createClass({
     return <div>
       <p>Owner: { owner.get('name') }</p>
       <p>Things: { isOwner ? things.join(', ') : null }</p>
+      <p>Current thing: { game.get('currentThing') }</p>
+      <p>Current price: { game.get('currentPrice') }</p>
       <p>Players:</p>
       { isOwner ?
         <table>
