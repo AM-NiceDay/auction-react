@@ -42,10 +42,16 @@ const Game = React.createClass({
 
     return <div>
       <p>Owner: { owner.get('name') }</p>
-      <p>Things: { isOwner ? things.join(', ') : null }</p>
-      <p>Current thing: { game.get('currentThing') }</p>
-      <p>Current price: { game.get('currentPrice') }</p>
-      { isOwner ? <button onClick={ this.nextPriceHandler }>Next tick</button> : null }
+      { game.get('isOver') ? <div>
+        <p>Winner: { game.get('winner').get('name') }</p>
+        </div> : <div>
+          <p>Things: { isOwner ? things.join(', ') : null }</p>
+          <p>Current thing: { game.get('currentThing') }</p>
+          <p>Current price: { game.get('currentPrice') }</p>
+          { isOwner ? <button onClick={ this.nextPriceHandler }>Next tick</button> : null }
+        </div>
+      }
+
       { isOwner ? <PlayersStats players={ players } playersStats={ game.get('playersStats').toJS() } /> : <div>
         <p>Players:</p>
           <ul>
