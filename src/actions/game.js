@@ -4,6 +4,7 @@ export const UPDATE_GAME = 'UPDATE_GAME';
 export const REMOVE_GAME = 'REMOVE_GAME';
 export const GAME_REMOVED = 'GAME_REMOVED';
 export const NEXT_TICK = 'NEXT_TICK';
+export const BUY_THING = 'BUY_THING';
 
 export function startGame(roomId) {
   return {
@@ -52,6 +53,17 @@ export function nextTick(gameId) {
   return {
     type: NEXT_TICK,
     gameId,
+    meta: {
+      remote: true
+    }
+  }
+}
+
+export function buyThing(gameId, playerId) {
+  return {
+    type: BUY_THING,
+    gameId,
+    playerId,
     meta: {
       remote: true
     }
