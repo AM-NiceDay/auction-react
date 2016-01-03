@@ -26,7 +26,7 @@ const Game = React.createClass({
   },
 
   nextPriceHandler() {
-    this.props.dispatch(nextTick());
+    this.props.dispatch(nextTick(this.props.game.get('_id')));
   },
 
   endGameHandler() {

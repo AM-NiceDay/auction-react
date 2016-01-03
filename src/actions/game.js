@@ -48,9 +48,10 @@ export function gameRemoved() {
   }
 }
 
-export function nextTick() {
+export function nextTick(gameId) {
   return {
     type: NEXT_TICK,
+    gameId,
     meta: {
       remote: true
     }
