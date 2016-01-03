@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getGame, updateGame, removeGame, gameRemoved } from '../actions/game';
+import { getGame, updateGame, removeGame, gameRemoved, nextTick } from '../actions/game';
 
 const Game = React.createClass({
 
@@ -24,10 +24,12 @@ const Game = React.createClass({
     socket.removeAllListeners('GAME_REMOVED');
   },
 
-  endGameHandler() {
-    const { dispatch } = this.props;
+  nextPriceHandler() {
+    this.props.dispatch(nextTick());
+  },
 
-    dispatch(removeGame());
+  endGameHandler() {
+    this.props.dispatch(removeGame());
   },
 
   render() {
@@ -44,6 +46,7 @@ const Game = React.createClass({
       <p>Things: { isOwner ? things.join(', ') : null }</p>
       <p>Current thing: { game.get('currentThing') }</p>
       <p>Current price: { game.get('currentPrice') }</p>
+      { isOwner ? <button onClick={ this.nextPriceHandler }>Next tick</button> : null }
       <p>Players:</p>
       { isOwner ?
         <table>

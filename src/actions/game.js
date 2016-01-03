@@ -3,6 +3,7 @@ export const GET_GAME = 'GET_GAME';
 export const UPDATE_GAME = 'UPDATE_GAME';
 export const REMOVE_GAME = 'REMOVE_GAME';
 export const GAME_REMOVED = 'GAME_REMOVED';
+export const NEXT_TICK = 'NEXT_TICK';
 
 export function startGame(roomId) {
   return {
@@ -44,5 +45,14 @@ export function removeGame(gameId) {
 export function gameRemoved() {
   return {
     type: GAME_REMOVED
+  }
+}
+
+export function nextTick() {
+  return {
+    type: NEXT_TICK,
+    meta: {
+      remote: true
+    }
   }
 }
