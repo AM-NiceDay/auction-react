@@ -46,6 +46,7 @@ const Game = React.createClass({
     const players = game.get('players');
     const things = game.get('things').toJS();
     const playersStats = game.get('playersStats').toJS();
+    const playersPoints = game.get('playersPoints').toJS();
     const playerStats = playersStats[user.get('id')];
     const isOwner = owner ? owner.get('_id') === user.get('id') : false;
 
@@ -60,15 +61,18 @@ const Game = React.createClass({
           { isOwner ?
             <button onClick={ this.nextTickHandler }>Next tick</button> :
             <div>
-              <p>Things: { playerStats.things.join(', ') }</p>
-              <p>Money: { playerStats.money }</p>
+              { playerStats ? <div>
+                  <p>Things: { playerStats.things.join(', ') }</p>
+                  <p>Money: { playerStats.money }</p>
+                </div> : null
+              }
               <button onClick={ this.buyThingHandler }>Buy thing</button>
             </div>
           }
         </div>
       }
 
-      { isOwner ? <PlayersStats players={ players } playersStats={ playersStats } /> : <div>
+      { isOwner ? <PlayersStats players={ players } playersStats={ playersStats } playersPoints={ playersPoints } /> : <div>
         <p>Players:</p>
           <ul>
             { players.toJS().map(player => <li key={ player._id }>{ player.name }</li>) }

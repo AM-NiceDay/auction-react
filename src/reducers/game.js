@@ -6,7 +6,8 @@ const initialState = Map({
   owner: Map(),
   players: List(),
   playersStats: Map(),
-  things: List()
+  things: List(),
+  playersPoints: Map()
 });
 
 export default function(state = initialState, action) {
