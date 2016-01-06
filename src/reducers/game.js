@@ -7,7 +7,8 @@ const initialState = Map({
   players: List(),
   playersStats: Map(),
   things: List(),
-  playersPoints: Map()
+  playersPoints: Map(),
+  isOver: false
 });
 
 export default function(state = initialState, action) {
