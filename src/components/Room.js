@@ -12,16 +12,20 @@ const Room = React.createClass({
     dispatch(getRoom(params.roomId));
 
     socket.on('UPDATE_ROOM', room => {
-      dispatch(updateRoom(room));
+      if (room._id == params.roomId) {
+        dispatch(updateRoom(room));
+      }
     });
 
-    socket.on('GAME_STARTED', gameId => {
-      this.props.history.pushState(null, `/game/${gameId}`);
+    socket.on('GAME_STARTED', (roomId, gameId) => {
+      if (roomId == params.roomId) {
+        this.props.history.pushState(null, `/game/${gameId}`);
+      }
     });
   },
 
   componentWillUnmount() {
-    const { socket } = this.props;
+    const { socket, params } = this.props;
 
     socket.removeAllListeners('UPDATE_ROOM');
     socket.removeAllListeners('GAME_STARTED');

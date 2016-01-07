@@ -10,11 +10,15 @@ const Game = React.createClass({
 
     dispatch(getGame(params.gameId));
     socket.on('UPDATE_GAME', (game) => {
-      dispatch(updateGame(game));
+      if (game._id == params.gameId) {
+        dispatch(updateGame(game));
+      }
     });
-    socket.on('GAME_REMOVED', () => {
-      dispatch(gameRemoved());
-      history.pushState(null, `/`);
+    socket.on('GAME_REMOVED', gameId => {
+      if (gameId == params.gameId) {
+        dispatch(gameRemoved());
+        history.pushState(null, `/`);
+      }
     });
     socket.on('UPDATE_CURRENT_WINNER', winner => {
       dispatch({
@@ -44,7 +48,7 @@ const Game = React.createClass({
   },
 
   endGameHandler() {
-    this.props.dispatch(removeGame());
+    this.props.dispatch(removeGame(this.props.game.get('_id')));
   },
 
   getWinner() {
