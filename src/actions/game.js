@@ -5,6 +5,7 @@ export const REMOVE_GAME = 'REMOVE_GAME';
 export const GAME_REMOVED = 'GAME_REMOVED';
 export const NEXT_TICK = 'NEXT_TICK';
 export const BUY_THING = 'BUY_THING';
+export const BUY_JOKER = 'BUY_JOKER';
 
 export function startGame(roomId) {
   return {
@@ -62,6 +63,18 @@ export function nextTick(gameId) {
 export function buyThing(gameId, playerId) {
   return {
     type: BUY_THING,
+    gameId,
+    playerId,
+    meta: {
+      remote: true
+    }
+  }
+}
+
+export function buyJoker(joker, gameId, playerId) {
+  return {
+    type: BUY_JOKER,
+    joker,
     gameId,
     playerId,
     meta: {

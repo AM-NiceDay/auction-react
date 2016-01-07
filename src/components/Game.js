@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getGame, updateGame, removeGame, gameRemoved, nextTick, buyThing } from '../actions/game';
+import { getGame, updateGame, removeGame, gameRemoved, nextTick, buyThing, buyJoker } from '../actions/game';
 import PlayersStats from './PlayersStats';
 
 const Game = React.createClass({
@@ -51,6 +51,15 @@ const Game = React.createClass({
     this.props.dispatch(removeGame(this.props.game.get('_id')));
   },
 
+  buyJokerHandler() {
+    var joker = Number(this.refs.joker.value);
+    this.props.dispatch(buyJoker(
+      joker,
+      this.props.game.get('_id'),
+      this.props.user.get('id')
+    ));
+  },
+
   getWinner() {
     this.props.dispatch({
       type: 'GET_CURRENT_WINNER',
@@ -80,6 +89,8 @@ const Game = React.createClass({
           <p>Current thing: { game.get('currentThing') }</p>
           <p>Current price: { game.get('currentPrice') }</p>
           { isOwner ? <div>
+              <p>Difference: { game.get('difference') }</p>
+              <p>Joker: { game.get('joker') }</p>
               <button onClick={ this.nextTickHandler }>Next tick</button>
               <button onClick={ this.getWinner }>Get current winner</button>
             </div> :
@@ -89,6 +100,8 @@ const Game = React.createClass({
                   <p>Money: { playerStats.money }</p>
                 </div> : null
               }
+              <input type="text" ref="joker" />
+              <button onClick={ this.buyJokerHandler }>Buy Joker</button>
               <button onClick={ this.buyThingHandler }>Buy thing</button>
             </div>
           }
