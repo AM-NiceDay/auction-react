@@ -15,7 +15,7 @@ import createLogger from 'redux-logger';
 import { updateUser } from './actions/user';
 import { fromJS, Map } from 'immutable';
 
-var socket = io('http://localhost:8000/');
+var socket = io('http://localhost/');
 
 const finalCreateStore = compose(
   persistState(null, {
