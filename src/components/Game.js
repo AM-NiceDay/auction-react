@@ -16,6 +16,12 @@ const Game = React.createClass({
       dispatch(gameRemoved());
       history.pushState(null, `/`);
     });
+    socket.on('UPDATE_CURRENT_WINNER', winner => {
+      dispatch({
+        type: 'UPDATE_CURRENT_WINNER',
+        winner
+      });
+    })
   },
 
   componentWillUnmount() {
@@ -23,6 +29,7 @@ const Game = React.createClass({
 
     socket.removeAllListeners('UPDATE_GAME');
     socket.removeAllListeners('GAME_REMOVED');
+    socket.removeAllListeners('UPDATE_CURRENT_WINNER');
   },
 
   nextTickHandler() {
@@ -38,6 +45,16 @@ const Game = React.createClass({
 
   endGameHandler() {
     this.props.dispatch(removeGame());
+  },
+
+  getWinner() {
+    this.props.dispatch({
+      type: 'GET_CURRENT_WINNER',
+      gameId: this.props.game.get('id'),
+      meta: {
+        remote: true
+      }
+    });
   },
 
   render() {
@@ -58,8 +75,10 @@ const Game = React.createClass({
           <p>Things: { things.join(', ') }</p>
           <p>Current thing: { game.get('currentThing') }</p>
           <p>Current price: { game.get('currentPrice') }</p>
-          { isOwner ?
-            <button onClick={ this.nextTickHandler }>Next tick</button> :
+          { isOwner ? <div>
+              <button onClick={ this.nextTickHandler }>Next tick</button>
+              <button onClick={ this.getWinner }>Get current winner</button>
+            </div> :
             <div>
               { playerStats ? <div>
                   <p>Things: { playerStats.things.join(', ') }</p>
